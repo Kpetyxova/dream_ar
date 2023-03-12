@@ -1,0 +1,22 @@
+entity-linking-deepy:
+  name: entity_linking
+  display_name: Entity Linking
+  container_name: entity-linking-deepy
+  model_type: NN-based
+  is_customizable: false
+  author: DeepPavlov
+  description: finds Wikidata entity ids for the entities detected with Entity Detection
+  ram_usage: 2.5G
+  gpu_usage: 1.3G
+  execution_time: 0.5
+  endpoints:
+  - group: annotators
+    port: 8075
+    endpoint: model
+  build_args:
+    SERVICE_PORT: 8075
+    SERVICE_NAME: entity_linking
+    CONFIG: entity_linking_deepy.json
+    PORT: 8075
+    SRC_DIR: annotators/entity_linking_deepy
+  date_created: '2023-03-04T19:27:44'

@@ -1,0 +1,28 @@
+dialogpt:
+  name: dialogpt
+  display_name: DialoGPT
+  container_name: dialogpt
+  model_type: NN-based
+  is_customizable: false
+  author: DeepPavlov
+  description: generative service based on Transformers generative model, the model
+    is set in docker compose argument `PRETRAINED_MODEL_NAME_OR_PATH` (for example,
+    `microsoft/DialoGPT-small` with 0.2-0.5 sec on GPU)
+  ram_usage: 1.2G
+  gpu_usage: 2.1G
+  execution_time: 2.0
+  endpoints:
+  - group: skills
+    port: 8125
+    endpoint: respond
+  - group: services
+    port: 8125
+    endpoint: continue
+  build_args:
+    SERVICE_PORT: 8125
+    SERVICE_NAME: dialogpt
+    PRETRAINED_MODEL_NAME_OR_PATH: microsoft/DialoGPT-medium
+    N_HYPOTHESES_TO_GENERATE: 5
+    CONFIG_NAME: dialogpt_en.json
+    MAX_HISTORY_DEPTH: 2
+  date_created: '2023-03-04T19:27:44'

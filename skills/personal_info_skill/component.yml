@@ -1,0 +1,34 @@
+personal-info-ru-skill:
+  name: personal_info_skill
+  display_name: Personal Info Skill
+  container_name: personal-info-ru-skill
+  component_type: Script-based w/o NNs
+  model_type: Dictionary/Pattern-based
+  is_customizable: false
+  author: DeepPavlov
+  description: queries and stores user's name, birthplace, and location
+  ram_usage: 40M
+  execution_time: 2.0
+  endpoints:
+  - group: skills
+    port: 8030
+    endpoint: respond
+  build_args:
+    LANGUAGE: RU
+  date_created: '2023-03-04T19:27:44'
+personal-info-skill:
+  name: personal_info_skill
+  display_name: Personal Info Skill
+  container_name: personal-info-skill
+  component_type: Script-based w/o NNs
+  model_type: Dictionary/Pattern-based
+  is_customizable: false
+  author: DeepPavlov
+  description: queries and stores user's name, birthplace, and location
+  ram_usage: 40M
+  execution_time: 2.0
+  endpoints:
+  - group: skills
+    port: 8030
+    endpoint: respond
+  date_created: '2023-03-04T19:27:44'
