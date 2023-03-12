@@ -1,0 +1,14 @@
+# С такими volumes удобно дебажить, не нужно пересобирать контейнер каждый раз при изменении кода
+services:
+  agent:
+    volumes:
+      - ".:/dp-agent"
+    ports:
+      - 4242:4242
+  dff-arabic-greeting-skill:
+    volumes:
+      - "./skills/dff_arabic_greeting_skill:/src"
+      - "./common:/src/common"
+    ports:
+      - 8138:8138
+version: "3.7"
