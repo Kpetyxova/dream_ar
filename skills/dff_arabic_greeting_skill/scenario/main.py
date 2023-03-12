@@ -39,16 +39,24 @@ logger = logging.getLogger(__name__)
 flows = {
     GLOBAL: {
         TRANSITIONS: {
-            ("greeting", "node1"): cnd.regexp(r"مرحبا"),
+            ("greeting", "hi_node", 0.9): cnd.regexp(r"\b(مرحبا|اهلا|هاي| سلام\b )\b"),
+            ("greeting", "how_bot_is_doing"): cnd.regexp(r"(كيف حالك|كيف أنت)"),
+            ("greeting", "bye_node"): cnd.regexp(r"(إلى اللقاء|وداعا|مع السلامة)"),
+            ("greeting", "what_bot_can_do"): cnd.regexp(r"(ماذا يمكنك أن تفعل|ماذا تفعل|ماذا تستطيع أن تفعل|ماذا تستطيع أن تفعل)")
         },
     },
     "sevice": {
         "start": {
             RESPONSE: "",
-            TRANSITIONS: {("greeting", "node1"): cnd.true()},
+            TRANSITIONS: {
+                ("greeting", "hi_node", 0.9): cnd.regexp(r"(مرحبا|اهلا|هاي|سلام)"),
+                ("greeting", "how_bot_is_doing"): cnd.regexp(r"(كيف حالك|كيف أنت)"),
+                ("greeting", "bye_node"): cnd.regexp(r"(إلى اللقاء|وداعا|مع السلامة)"),
+                ("greeting", "what_bot_can_do"): cnd.regexp(r"(ماذا يمكنك أن تفعل|ماذا تفعل|ماذا تستطيع أن تفعل|ماذا تستطيع أن تفعل)")
+            },
         },
         "fallback": {
-            RESPONSE: "Ooops",
+            RESPONSE: "!لا أعرف كيف أجيب، ولكنني سأتعلم",
             TRANSITIONS: {
                 lbl.previous(): cnd.regexp(r"previous", re.IGNORECASE),
                 lbl.repeat(0.2): cnd.true(),
@@ -58,16 +66,37 @@ flows = {
     "greeting": {
         LOCAL: {
             PROCESSING: {
-                "set_confidence": int_prs.set_confidence(1.0),
+                # "set_confidence": int_prs.set_confidence(1.0),
                 "set_can_continue": int_prs.set_can_continue(),
                 # "fill_responses_by_slots": int_prs.fill_responses_by_slots(),
             },
         },
-        "node1": {
-            RESPONSE: "مرحبا حببي",
+        "hi_node": {
+            RESPONSE: "مرحبا! كيف حالك؟",
+            PROCESSING: {
+                "set_confidence": int_prs.set_confidence(0.9),
+                "set_can_continue": int_prs.set_can_continue(),
+                # "fill_responses_by_slots": int_prs.fill_responses_by_slots(),
+            },
+            TRANSITIONS: {
+                "how_bot_is_doing": cnd.regexp(r"(كيف حالك|كيف أنت|وانت)"),
+            },
+        },
+        "how_bot_is_doing": {
+            RESPONSE: "!أنا بخير، شكرًا",
             PROCESSING: {},
             TRANSITIONS: {},
         },
+        "bye_node": {
+            RESPONSE: "!مع السلامة",
+            PROCESSING: {},
+            TRANSITIONS: {},
+        },
+        "what_bot_can_do": {
+            RESPONSE: ".أعرف كيف أجيب على الأسئلة",
+            PROCESSING: {},
+            TRANSITIONS: {},
+        }
     },
 }
 
