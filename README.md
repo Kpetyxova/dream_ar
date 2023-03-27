@@ -1,6 +1,7 @@
 # DeepPavlov Dream
 
 **Arabic distribution**
+
 This distribution consists of **dff-arabic-greeting-skill**, **ar-odqa** service, and **dff-ar-odqa-skill**.
 For Open-Domain Question Answering model we trained SQuAD model on [Arabic Question Answering Datasets](https://github.com/WissamAntoun/Arabic_QA_Datasets) using [BERT multilingual base model (cased)](https://huggingface.co/bert-base-multilingual-cased), and TF-IDF ranker and reader for Wikipedia texts.
 
