@@ -66,6 +66,19 @@
                     "skill_selectors"
                 ],
                 "state_manager_method": "add_hypothesis"
+            },
+            "dff_ar_odqa_skill": {
+                "connector": {
+                    "protocol": "http",
+                    "timeout": 2,
+                    "url": "http://dff-ar-odqa-skill:8141/respond"
+                },
+                "dialog_formatter": "state_formatters.dp_formatters:dff_ar_odqa_skill_formatter",
+                "response_formatter": "state_formatters.dp_formatters:skill_with_attributes_formatter_service",
+                "previous_services": [
+                    "skill_selectors"
+                ],
+                "state_manager_method": "add_hypothesis"
             }
         },
         "candidate_annotators": {},

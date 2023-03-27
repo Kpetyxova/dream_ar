@@ -932,6 +932,9 @@ def dff_generative_skill_formatter(dialog: Dict) -> List[Dict]:
 def dff_arabic_greeting_skill_formatter(dialog: Dict) -> List[Dict]:
     return utils.dff_formatter(dialog, "dff_arabic_greeting_skill")
 
+def dff_ar_odqa_skill_formatter(dialog: Dict) -> List[Dict]:
+    return utils.dff_formatter(dialog, "dff_ar_odqa_skill")
+
 
 def dff_template_skill_formatter(dialog: Dict) -> List[Dict]:
     return utils.dff_formatter(dialog, "dff_template_skill")

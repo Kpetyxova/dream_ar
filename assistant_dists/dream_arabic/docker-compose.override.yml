@@ -2,8 +2,8 @@ services:
   agent:
     command: sh -c 'bin/wait && python -m deeppavlov_agent.run agent.pipeline_config=assistant_dists/dream_arabic/pipeline_conf.json'
     environment:
-      WAIT_HOSTS: "dff-arabic-greeting-skill:8138, rule-based-response-selector:8005"
-      WAIT_HOSTS_TIMEOUT: ${WAIT_TIMEOUT:-1200}
+      WAIT_HOSTS: "dff-arabic-greeting-skill:8138, rule-based-response-selector:8005, ar-odqa:8139, dff-ar-odqa-skill:8141"
+      WAIT_HOSTS_TIMEOUT: ${WAIT_TIMEOUT:-2400}
       HIGH_PRIORITY_INTENTS: 1
       RESTRICTION_FOR_SENSITIVE_CASE: 1
       ALWAYS_TURN_ON_ALL_SKILLS: 0
@@ -11,7 +11,7 @@ services:
 
 
   dff-arabic-greeting-skill:
-    env_file: [ .env_ru ]
+    env_file: [ .env ]
     build:
       args:
         SERVICE_PORT: 8138
@@ -33,5 +33,41 @@ services:
     volumes: []
     ports:
       - 8005:8005
+
+  ar-odqa:
+    env_file: [ .env ]
+    build:
+      args:
+        CONFIG: ar_odqa_infer_wiki_test.json
+        SERVICE_PORT: 8139
+        SERVICE_NAME: ar_odqa
+      context: .
+      dockerfile: ./services/ar_odqa/Dockerfile
+    command: gunicorn --workers=1 server:app -b 0.0.0.0:8139 --reload
+    environment:
+      - CUDA_VISIBLE_DEVICES=5
+    deploy:
+      resources:
+        limits:
+          memory: 7G
+        reservations:
+          memory: 7G
+
+  dff-ar-odqa-skill:
+    env_file: [ .env ]
+    build:
+      args:
+        SERVICE_PORT: 8141
+        SERVICE_NAME: dff_ar_odqa_skill
+        ODQA_SERVICE_URL: http://ar-odqa:8139/model
+      context: .
+      dockerfile: ./skills/dff_ar_odqa_skill/Dockerfile
+    command: gunicorn --workers=1 server:app -b 0.0.0.0:8141 --reload
+    deploy:
+      resources:
+        limits:
+          memory: 128M
+        reservations:
+          memory: 128M
 
 version: '3.7'

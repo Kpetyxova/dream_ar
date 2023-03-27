@@ -11,4 +11,17 @@ services:
       - "./common:/src/common"
     ports:
       - 8138:8138
+  ar-odqa:
+    volumes:
+      - "./services/ar_odqa:/src"
+      # - "~/.deeppavlov:/root/.deeppavlov"
+      # - "~/.deeppavlov/cache:/root/.cache"
+    ports:
+      - 8139:8139
+  dff-ar-odqa-skill:
+    volumes:
+      - "./skills/dff_ar_odqa_skill:/src"
+      - "./common:/src/common"
+    ports:
+      - 8141:8141
 version: "3.7"
